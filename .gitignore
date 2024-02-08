@@ -1,0 +1,4 @@
+*.faiss
+*.npy
+*.json
+*.db
