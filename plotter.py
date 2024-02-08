@@ -148,7 +148,7 @@ if __name__ == "__main__":
     print(s.nearest(5))
     print(s.distance(System.get_by_name("Barnard's Star")))
     with Timer() as t:
-        pathsearch = SearchTree(s, System.get_by_name("Maia"), 15)
+        pathsearch = SearchTree(s, System.get_by_name("Maia"), 65)
     print(f"Search took {t.interval:.6f} seconds")
     print(pathsearch.path)
     print(len(pathsearch.path))
