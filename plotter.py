@@ -84,14 +84,22 @@ class System:
 
 
 class SearchTree:
-    def __init__(self, start: System, end: System, max_distance: float, n_samples: int = 5):
+    def __init__(self, start: System, end: System, max_distance: float, n_samples: int = 5, validate: bool = True):
         self.start = start
         self.end = end
+        if max_distance < 2:
+            raise ValueError("Max distance must be at least 2 LY")
+        if max_distance > start.distance(end):
+            self.path = [start, end]
+            return
         self.max_distance = max_distance
         self.n_samples = n_samples
         self.visited = {start}
         self.path = [start]
         self._search()
+        if validate:
+            if not self.validate():
+                raise ValueError("Path is invalid")
 
     def _search(self):
         current = self.start
@@ -127,9 +135,9 @@ class SearchTree:
     def __str__(self):
         return f"SearchTree from {self.start.name} to {self.end.name} with max distance of {self.max_distance} LY"
 
-    def validate(self, max_distance: float):
+    def validate(self):
         for i in range(len(self.path) - 1):
-            if self.path[i].distance(self.path[i+1]) > max_distance:
+            if self.path[i].distance(self.path[i+1]) > self.max_distance:
                 return False
         return True
 
@@ -140,8 +148,7 @@ if __name__ == "__main__":
     print(s.nearest(5))
     print(s.distance(System.get_by_name("Barnard's Star")))
     with Timer() as t:
-        pathsearch = SearchTree(s, System.get_by_name("Beagle Point"), 65)
+        pathsearch = SearchTree(s, System.get_by_name("Maia"), 15)
     print(f"Search took {t.interval:.6f} seconds")
     print(pathsearch.path)
     print(len(pathsearch.path))
-    print(pathsearch.validate(65))
