@@ -125,7 +125,7 @@ class SearchTree:
         return self.path
 
     def __str__(self):
-        return f"SearchTree from {self.start.name} to {self.end.name} with max distance {self.max_distance}"
+        return f"SearchTree from {self.start.name} to {self.end.name} with max distance of {self.max_distance} LY"
 
     def validate(self, max_distance: float):
         for i in range(len(self.path) - 1):
@@ -142,6 +142,6 @@ if __name__ == "__main__":
     with Timer() as t:
         pathsearch = SearchTree(s, System.get_by_name("Beagle Point"), 65)
     print(f"Search took {t.interval:.6f} seconds")
-    print(search.path)
-    print(len(search.path))
-    print(search.validate(65))
+    print(pathsearch.path)
+    print(len(pathsearch.path))
+    print(pathsearch.validate(65))
